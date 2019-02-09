@@ -32,9 +32,12 @@ class SimpleHarmonicPendulum:
 # Double pendulum: Each part is of the same mass and length. Centre of mass is halfway along the length.
 class DoublePendulum:
     # Constructor
-    # len: length [m]
-    def __init__(self, len = 1.0):
-        self.len = len
+    # length: length [m]
+    # mass:   mass of each rod [kg]
+    def __init__(self, length = 1.0, mass = 1.0):
+        self.len  = length
+        self.mass = mass
+
 
     # Call operator: Equations of state for the double pendulum
     def __call__(self, t, x):
