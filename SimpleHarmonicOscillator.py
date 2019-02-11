@@ -91,7 +91,7 @@ class DoublePendulum:
     def get_total_energy(self, theta1, theta2, theta1_dot, theta2_dot):
         a = np.cos(theta1)*np.cos(theta2) + np.sin(theta1)*np.sin(theta2)   # cos(theta1-theta2)
         T = (self.mass*self.len*self.len/6.0) * (theta1_dot*theta1_dot + 4.0*theta1_dot*theta1_dot + 3.0*theta1_dot*theta2_dot*a)
-        V = 0.5*self.mass*Constants.g_acceleration*(3.0*np.cos(theta1) + np.cos(theta2))
+        V = -0.5*self.mass*Constants.g_acceleration*(3.0*np.cos(theta1) + np.cos(theta2))
         return T + V
 
 
@@ -108,8 +108,8 @@ class DoublePendulum:
         theta1_dot = self.__get_theta1_dot(theta1, theta2, p1, p2)
         theta2_dot = self.__get_theta2_dot(theta1, theta2, p1, p2)
 
-        dL_dtheta1 = -theta1_dot*theta2_dot*np.sin(theta1-theta2) + (3.0*Constants.g_acceleration/self.len) * np.sin(theta1)
-        dL_dtheta2 =  theta1_dot*theta2_dot*np.sin(theta1-theta2) + (Constants.g_acceleration/self.len) * np.sin(theta2)
+        dL_dtheta1 =  theta1_dot*theta2_dot*np.sin(theta1-theta2) + (3.0*Constants.g_acceleration/self.len) * np.sin(theta1)
+        dL_dtheta2 = -theta1_dot*theta2_dot*np.sin(theta1-theta2) + (Constants.g_acceleration/self.len) * np.sin(theta2)
 
         dL_dtheta1 *= -0.5*self.mass*self.len*self.len
         dL_dtheta2 *= -0.5*self.mass*self.len*self.len
