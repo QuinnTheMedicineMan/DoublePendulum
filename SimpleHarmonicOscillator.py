@@ -37,6 +37,14 @@ class SimpleHarmonicPendulum:
         return [sol.t, sol.y[0], sol.y[1], sol.y[2]]
 
 
+    # Solve equations of state explicitly
+    # y0: initial displacement [rad]
+    # return: [time [s], displacement [rad], velocity [rad/s], acceleration [rad/s/s]]
+    def explicit(self, y0, t):
+        freq = 2.0 * np.pi * np.sqrt(self.len / Constants.g_acceleration)
+        return [t, np.cos(freq*t), np.sin(freq*t), -np.cos(freq*t)]
+
+
 # Double pendulum: Each part is of the same mass and length. Centre of mass is halfway along the length.
 class DoublePendulum:
     # Constructor
