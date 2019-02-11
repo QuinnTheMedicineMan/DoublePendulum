@@ -148,8 +148,8 @@ class DoublePendulum:
         theta1 = sol.y[0] % (2.0 * np.pi)
         theta2 = sol.y[1] % (2.0 * np.pi)
 
-        theta1 -= 2.0*pi*(theta1 > np.pi)
-        theta2 -= 2.0*pi*(theta2 > np.pi)
+        theta1 -= 2.0*np.pi*(theta1 > np.pi)
+        theta2 -= 2.0*np.pi*(theta2 > np.pi)
 
         theta1_dot = self.__get_theta1_dot(theta1, theta2, sol.y[2], sol.y[3])
         theta2_dot = self.__get_theta2_dot(theta1, theta2, sol.y[2], sol.y[3])
