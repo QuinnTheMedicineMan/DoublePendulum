@@ -41,7 +41,7 @@ class SimpleHarmonicPendulum:
     # y0: initial displacement [rad]
     # return: [time [s], displacement [rad], velocity [rad/s], acceleration [rad/s/s]]
     def explicit(self, y0, t):
-        freq = 2.0 * np.pi * np.sqrt(-Constants.g_acceleration / self.len)
+        freq = np.sqrt(-Constants.g_acceleration / self.len)
         return [t, np.cos(freq*t), np.sin(freq*t), -np.cos(freq*t)]
 
 
