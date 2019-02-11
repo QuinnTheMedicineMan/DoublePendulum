@@ -124,8 +124,12 @@ class DoublePendulum:
     def solve(self, y0, t):
         sol = ivp(self.deriv, [t[0], t[-1]], y0, t_eval=t)
 
-        theta1     = sol.y[0] % 2.0*np.pi   # Keep angles between 0 and 2pi
-        theta2     = sol.y[1] % 2.0*np.pi
+        theta1  = sol.y[0] % 2.0*np.pi   # Keep angles between -pi and pi
+        theta2  = sol.y[1] % 2.0*np.pi
+
+        theta1 -= (theta1 > np.pi/2.0) * 2.0*np.pi
+        theta2 -= (theta2 > np.pi/2.0) * 2.0*np.pi
+
         theta1_dot = self.__get_theta1_dot(theta1, theta2, sol.y[2], sol.y[3])
         theta2_dot = self.__get_theta2_dot(theta1, theta2, sol.y[2], sol.y[3])
         energy     = self.get_total_energy(theta1, theta2, theta1_dot, theta2_dot)
