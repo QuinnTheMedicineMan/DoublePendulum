@@ -56,6 +56,32 @@ class DoublePendulum:
         self.mass = mass
 
 
+    # Get the angular velocity of the first pendulum
+    # theta1: theta 1 [rad]
+    # theta2: theta 2 [rad]
+    # p1: dL/d(theta1/dt)
+    # p2: dL/d(theta2/dt)
+    # return derivative of theta 1
+    def __get_theta1_dot(theta1, theta2, p1, p2):
+        a = np.cos(theta1) * np.cos(theta2) + np.sin(theta1) * np.sin(theta2) # cos(theta1-theta2)
+        theta1_dot = (2.0*p1 - 3.0*a*p2)/(16.0 - 9.0*a*a)
+        theta1_dot *= 6.0/(self.len*self.len*self.mass)
+        return theta1_dot
+
+
+    # Get the angular velocity of the second pendulum
+    # theta1: theta 1 [rad]
+    # theta2: theta 2 [rad]
+    # p1: dL/d(theta1/dt)
+    # p2: dL/d(theta2/dt)
+    # return derivative of theta 2
+    def __get_theta2_dot(theta1, theta2, p1, p2):
+        a = np.cos(theta1) * np.cos(theta2) + np.sin(theta1) * np.sin(theta2) # cos(theta1-theta2)
+        theta2_dot =  (8.0*p2 - 3.0*a*p1)/(16.0 - 9.0*a*a)
+        theta2_dot *= 6.0/(self.len*self.len*self.mass)
+        return theta2_dot
+
+
     # Equations of state for the double pendulum
     # t: time [seconds]
     # x: [theta 1 [rad], theta 2 [rad], dL/d(dtheta1/dt)) [second/rad], dL/d(dtheta2/dt)) [second, rad]]
@@ -66,12 +92,8 @@ class DoublePendulum:
         p1     = x[2]   # Partial derivative of the lagrangian with respect to the time derivative of the first  angle
         p2     = x[3]   # Partial derivative of the lagrangian with respect to the time derivative of the second angle
 
-        # Potential for speed up / avoidance of floating point errors in the cosine
-        theta1_dot = (2.0*p1 - 3.0*np.cos(theta1-theta2)*p2) / (16.0 - 9*np.cos(theta1-theta2)*np.cos(theta1-theta2))
-        theta2_dot = (8.0*p2 - 3.0*np.cos(theta1-theta2)*p1) / (16.0 - 9*np.cos(theta1-theta2)*np.cos(theta1-theta2))
-
-        theta1_dot *= 6.0/(self.len*self.len*self.mass)
-        theta2_dot *= 6.0/(self.len*self.len*self.mass)
+        theta1_dot = self.__get_theta1_dot(theta1, theta2, p1, p2)
+        theta2_dot = self.__get_theta2_dot(theta1, theta2, p1, p2)
 
         dL_dtheta1 =  theta1_dot*theta2_dot*np.sin(theta1-theta2) + (3.0*Constants.g_acceleration/self.len) * np.sin(theta1)
         dL_dtheta2 = -theta1_dot*theta2_dot*np.sin(theta1-theta2) + (Constants.g_acceleration/self.len) * np.sin(theta2)
