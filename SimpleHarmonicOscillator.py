@@ -9,24 +9,32 @@ import Constants
 # Simple Harmonic Pendulum
 class SimpleHarmonicPendulum:
     # Constructor
-    # length: length of pendulum [m]
+    # length: length of pendulum [rad]
     def __init__(self, length = 1.0):
         self.len = length
 
 
     # Get simple harmonic oscillator acceleration
-    # x: displacement [m]
-    # return: acceleration [m/s]
+    # x: displacement [rad]
+    # return: acceleration [rad/s]
     def get_acceleration(self, x):
         return -self.len * x
 
 
     # Equation of state for the SHO
     # t: time [seconds]
-    # x: [displacement [m], velocity [m/s]]
-    # return: [velocity [m/s], acceleration [m/s/s]]
+    # x: [displacement [rad], velocity [rad/s]]
+    # return: [velocity [rad/s], acceleration [rad/s/s]]
     def deriv(self, t, x):
         return [x[1], self.get_acceleration(x[0])]
+
+
+    # Solve equations of state numerically
+    # y0: initial state [displacement [rad], velocity [rad/s]]
+    # return: [time [s], displacement [rad], velocity [rad/s], acceleration [rad/s/s]]
+    def solve(self, y0, t):
+        sol = ivp(self.deriv, t, y0)
+        return [sol.t, sol.y[0], sol.y[1], sol.y[2]]
 
 
 # Double pendulum: Each part is of the same mass and length. Centre of mass is halfway along the length.
