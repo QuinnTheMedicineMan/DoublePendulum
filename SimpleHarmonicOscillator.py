@@ -82,6 +82,19 @@ class DoublePendulum:
         return theta2_dot
 
 
+    # Get the energy of the system
+    # theta1: theta 1 [rad]
+    # theta2: theta 2 [rad]
+    # theta1_dot: d(theta1)/dt
+    # theta2_dot: d(theta2)/dt
+    # return the total energy of the system in joules
+    def get_total_energy(self, theta1, theta2, theta1_dot, theta2_dot):
+        a = np.cos(theta1)*np.cos(theta2) + np.sin(theta1)*np.sin(theta2)   # cos(theta1-theta2)
+        T = (self.mass*self.len*self.len/6.0) * (theta1_dot*theta1_dot + 4.0*theta1_dot*theta1_dot + 3.0*theta1_dot*theta2_dot*a)
+        V = 0.5*self.mass*Constants.g_acceleration*(3.0*np.cos(theta1) + np.cos(theta2))
+        return T + V
+
+
     # Equations of state for the double pendulum
     # t: time [seconds]
     # x: [theta 1 [rad], theta 2 [rad], dL/d(dtheta1/dt)) [second/rad], dL/d(dtheta2/dt)) [second, rad]]
@@ -95,8 +108,8 @@ class DoublePendulum:
         theta1_dot = self.__get_theta1_dot(theta1, theta2, p1, p2)
         theta2_dot = self.__get_theta2_dot(theta1, theta2, p1, p2)
 
-        dL_dtheta1 =  theta1_dot*theta2_dot*np.sin(theta1-theta2) + (3.0*Constants.g_acceleration/self.len) * np.sin(theta1)
-        dL_dtheta2 = -theta1_dot*theta2_dot*np.sin(theta1-theta2) + (Constants.g_acceleration/self.len) * np.sin(theta2)
+        dL_dtheta1 = -theta1_dot*theta2_dot*np.sin(theta1-theta2) + (3.0*Constants.g_acceleration/self.len) * np.sin(theta1)
+        dL_dtheta2 =  theta1_dot*theta2_dot*np.sin(theta1-theta2) + (Constants.g_acceleration/self.len) * np.sin(theta2)
 
         dL_dtheta1 *= -0.5*self.mass*self.len*self.len
         dL_dtheta2 *= -0.5*self.mass*self.len*self.len
@@ -107,7 +120,7 @@ class DoublePendulum:
     # Solve equations of state numerically
     # y0: initial state [theta 1 [rad], theta 2 [rad], dL/d(dtheta1/dt)) [second/rad], dL/d(dtheta2/dt)) [second, rad]]
     # t:  time [s]
-    # return: [time [s], theta 1 [rad], theta 2 [rad], d(theta1)/dt [rad/s], d(theta2)/dt [rad/s]]
+    # return: [time [s], energy [J], theta 1 [rad], theta 2 [rad], d(theta1)/dt [rad/s], d(theta2)/dt [rad/s]]
     def solve(self, y0, t):
         sol = ivp(self.deriv, [t[0], t[-1]], y0, t_eval=t)
 
@@ -115,5 +128,6 @@ class DoublePendulum:
         theta2     = sol.y[1] % 2.0*np.pi
         theta1_dot = self.__get_theta1_dot(theta1, theta2, sol.y[2], sol.y[3])
         theta2_dot = self.__get_theta2_dot(theta1, theta2, sol.y[2], sol.y[3])
+        energy     = self.get_total_energy(theta1, theta2, theta1_dot, theta2_dot)
 
-        return [sol.t, theta1, theta2, theta1_dot, theta2_dot]
+        return [sol.t, energy, theta1, theta2, theta1_dot, theta2_dot]
