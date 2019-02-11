@@ -31,6 +31,7 @@ class SimpleHarmonicPendulum:
 
     # Solve equations of state numerically
     # y0: initial state [displacement [rad], velocity [rad/s]]
+    # t:  time [s]
     # return: [time [s], displacement [rad], velocity [rad/s], acceleration [rad/s/s]]
     def solve(self, y0, t):
         sol = ivp(self.deriv, [t[0], t[-1]], y0, t_eval=t)
@@ -81,3 +82,4 @@ class DoublePendulum:
         return [theta1_dot, theta2_dot, dL_dtheta1, dL_dtheta2]
 
 
+    
