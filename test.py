@@ -2,7 +2,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import Pendulums as sho
+import Pendulums as pn
 
 
 def main():
