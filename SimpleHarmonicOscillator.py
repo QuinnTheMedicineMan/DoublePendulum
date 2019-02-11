@@ -116,4 +116,4 @@ class DoublePendulum:
         theta1_dot = self.__get_theta1_dot(theta1, theta2, sol.y[3], sol.y[4]) 
         theta2_dot = self.__get_theta2_dot(theta1, theta2, sol.y[3], sol.y[4])
 
-        return [sol.t, theta1, theta2, theta3, theta4]
+        return [sol.t, theta1, theta2, theta1_dot, theta2_dot]
