@@ -33,8 +33,8 @@ class SimpleHarmonicPendulum:
     # y0: initial state [displacement [rad], velocity [rad/s]]
     # return: [time [s], displacement [rad], velocity [rad/s], acceleration [rad/s/s]]
     def solve(self, y0, t):
-        sol = ivp(self.deriv, t, y0)
-        return [sol.t, sol.y[0], sol.y[1], sol.y[2]]
+        sol = ivp(self.deriv, [t[0], t[-1]], y0, t_eval=t)
+        return [sol.t, sol.y[0], sol.y[1], self.get_acceleration(sol.y[0])]
 
 
     # Solve equations of state explicitly
