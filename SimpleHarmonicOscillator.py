@@ -82,17 +82,36 @@ class DoublePendulum:
         return theta2_dot
 
 
-    # Get the energy of the system
+    # Get the kinetic energy of the system
+    # theta1: theta 1 [rad]
+    # theta2: theta 2 [rad]
+    # theta1_dot: d(theta1)/dt
+    # theta2_dot: d(theta2)/dt
+    # return the kinetic energy of the system in joules
+    def get_kinetic_energy(self, theta1, theta2, theta1_dot, theta2_dot):
+        a = np.cos(theta1)*np.cos(theta2) + np.sin(theta1)*np.sin(theta2)   # cos(theta1-theta2)
+        return (self.mass*self.len*self.len/6.0) * (theta1_dot*theta1_dot + 4.0*theta1_dot*theta1_dot + 3.0*theta1_dot*theta2_dot*a)
+
+
+    # Get the potential energy of the system
+    # theta1: theta 1 [rad]
+    # theta2: theta 2 [rad]
+    # theta1_dot: d(theta1)/dt
+    # theta2_dot: d(theta2)/dt
+    # return the potential energy of the system in joules
+    def get_potential_energy(self, theta1, theta2, theta1_dot, theta2_dot):
+        return -0.5*self.mass*Constants.g_acceleration*(3.0*np.cos(theta1) + np.cos(theta2))
+
+
+    # Get the total energy of the system
     # theta1: theta 1 [rad]
     # theta2: theta 2 [rad]
     # theta1_dot: d(theta1)/dt
     # theta2_dot: d(theta2)/dt
     # return the total energy of the system in joules
     def get_total_energy(self, theta1, theta2, theta1_dot, theta2_dot):
-        a = np.cos(theta1)*np.cos(theta2) + np.sin(theta1)*np.sin(theta2)   # cos(theta1-theta2)
-        T = (self.mass*self.len*self.len/6.0) * (theta1_dot*theta1_dot + 4.0*theta1_dot*theta1_dot + 3.0*theta1_dot*theta2_dot*a)
-        V = -0.5*self.mass*Constants.g_acceleration*(3.0*np.cos(theta1) + np.cos(theta2))
-        return T + V
+        return self.get_kinetic_energy  (theta1, theta2, theta1_dot, theta2_dot) \
+             + self.get_potential_energy(theta1, theta2, theta1_dot, theta2_dot)
 
 
     # Equations of state for the double pendulum
