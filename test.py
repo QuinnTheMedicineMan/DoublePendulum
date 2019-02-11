@@ -2,7 +2,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import SimpleHarmonicOscillator as sho
+import Pendulums as sho
 
 
 def main():
