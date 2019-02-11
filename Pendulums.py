@@ -100,7 +100,7 @@ class DoublePendulum:
     # theta2_dot: d(theta2)/dt
     # return the potential energy of the system in joules
     def get_potential_energy(self, theta1, theta2, theta1_dot, theta2_dot):
-        return -0.5*self.mass*Constants.g_acceleration*(3.0*np.cos(theta1) + np.cos(theta2))
+        return 0.5*self.mass*Constants.g_acceleration*(3.0*np.cos(theta1) + np.cos(theta2))
 
 
     # Get the total energy of the system
