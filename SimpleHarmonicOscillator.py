@@ -62,7 +62,7 @@ class DoublePendulum:
     # p1: dL/d(theta1/dt)
     # p2: dL/d(theta2/dt)
     # return derivative of theta 1
-    def __get_theta1_dot(theta1, theta2, p1, p2):
+    def __get_theta1_dot(self, theta1, theta2, p1, p2):
         a = np.cos(theta1) * np.cos(theta2) + np.sin(theta1) * np.sin(theta2) # cos(theta1-theta2)
         theta1_dot = (2.0*p1 - 3.0*a*p2)/(16.0 - 9.0*a*a)
         theta1_dot *= 6.0/(self.len*self.len*self.mass)
@@ -75,7 +75,7 @@ class DoublePendulum:
     # p1: dL/d(theta1/dt)
     # p2: dL/d(theta2/dt)
     # return derivative of theta 2
-    def __get_theta2_dot(theta1, theta2, p1, p2):
+    def __get_theta2_dot(self, theta1, theta2, p1, p2):
         a = np.cos(theta1) * np.cos(theta2) + np.sin(theta1) * np.sin(theta2) # cos(theta1-theta2)
         theta2_dot =  (8.0*p2 - 3.0*a*p1)/(16.0 - 9.0*a*a)
         theta2_dot *= 6.0/(self.len*self.len*self.mass)
