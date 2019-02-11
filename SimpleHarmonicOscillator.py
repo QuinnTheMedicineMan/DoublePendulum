@@ -21,11 +21,11 @@ class SimpleHarmonicPendulum:
         return -self.len * x
 
 
-    # Call operator: Equation of state for the SHO
+    # Equation of state for the SHO
     # t: time [seconds]
     # x: [displacement [m], velocity [m/s]]
     # return: [velocity [m/s], acceleration [m/s/s]]
-    def __call__(self, t, x):
+    def deriv(self, t, x):
         return [x[1], self.get_acceleration(x[0])]
 
 
@@ -39,11 +39,11 @@ class DoublePendulum:
         self.mass = mass
 
 
-    # Call operator: Equations of state for the double pendulum
+    # Equations of state for the double pendulum
     # t: time [seconds]
     # x: [theta 1 [rad], theta 2 [rad], dL/d(dtheta1/dt)) [second/rad], dL/d(dtheta2/dt)) [second, rad]]
     # return derivative of x
-    def __call__(self, t, x):
+    def deriv(self, t, x):
         theta1 = x[0]   # First  angle in radians
         theta2 = x[1]   # Second angle in radians
         p1     = x[2]   # Partial derivative of the lagrangian with respect to the time derivative of the first  angle
