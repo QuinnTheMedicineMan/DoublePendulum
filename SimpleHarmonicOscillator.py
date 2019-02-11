@@ -18,7 +18,7 @@ class SimpleHarmonicPendulum:
     # x: displacement [rad]
     # return: acceleration [rad/s]
     def get_acceleration(self, x):
-        return -self.len * x
+        return Constants.g_accleration * self.len * x
 
 
     # Equation of state for the SHO
