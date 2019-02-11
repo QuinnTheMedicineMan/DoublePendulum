@@ -82,4 +82,10 @@ class DoublePendulum:
         return [theta1_dot, theta2_dot, dL_dtheta1, dL_dtheta2]
 
 
-    
+    # Solve equations of state numerically
+    # y0: initial state [theta 1 [rad], theta 2 [rad], dL/d(dtheta1/dt)) [second/rad], dL/d(dtheta2/dt)) [second, rad]]
+    # t:  time [s]
+    # return: [time [s], theta 1 [rad], theta 2 [rad], dL/d(dtheta1/dt)) [second/rad], dL/d(dtheta2/dt)) [second, rad]]
+    def solve(self, y0, t):
+        sol = ivp(self.deriv, [t[0], t[-1]], y0, t_eval=t)
+        return [sol.t, sol.y[0], sol.y[1], sol.y[2], sol.y[3]]
