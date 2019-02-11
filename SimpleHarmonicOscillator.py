@@ -43,7 +43,7 @@ class SimpleHarmonicPendulum:
     # return: [time [s], displacement [rad], velocity [rad/s], acceleration [rad/s/s]]
     def explicit(self, y0, t):
         freq = np.sqrt(-Constants.g_acceleration / self.len)
-        return [t, np.cos(freq*t), -freq*np.sin(freq*t), -freq*freq*np.cos(freq*t)]
+        return [t, y0*np.cos(freq*t), -y0*freq*np.sin(freq*t), -y0*freq*freq*np.cos(freq*t)]
 
 
 # Double pendulum: Each part is of the same mass and length. Centre of mass is halfway along the length.
