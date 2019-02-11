@@ -11,7 +11,7 @@ def main():
     # Simple harmonic pendulum checks
     # Solve numerically
     t   = np.linspace(0, 30, 3000)
-    pen = sho.SimpleHarmonicPendulum()
+    pen = pn.SimpleHarmonicPendulum()
 
     sol = pen.solve([np.radians(10.0), 0.0], t)
 
@@ -39,7 +39,7 @@ def main():
 
     # Double pendulum checks
     # Does a pendulum at rest stay put?
-    pen = sho.DoublePendulum()
+    pen = pn.DoublePendulum()
 
     sol = pen.solve([0.0, 0.0, 0.0, 0.0], t)
 
