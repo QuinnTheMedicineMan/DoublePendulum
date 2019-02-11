@@ -116,7 +116,7 @@ class DoublePendulum:
 
     # Equations of state for the double pendulum
     # t: time [seconds]
-    # x: [theta 1 [rad], theta 2 [rad], dL/d(dtheta1/dt)) [second/rad], dL/d(dtheta2/dt)) [second, rad]]
+    # x: [theta 1 [rad], theta 2 [rad], dL/d(dtheta1/dt)) [second/rad], dL/d(dtheta2/dt)) [second/rad], total energy [J]]
     # return derivative of x
     def deriv(self, t, x):
         theta1 = x[0]   # First  angle in radians
@@ -133,7 +133,7 @@ class DoublePendulum:
         dL_dtheta1 *= -0.5*self.mass*self.len*self.len
         dL_dtheta2 *= -0.5*self.mass*self.len*self.len
 
-        return [theta1_dot, theta2_dot, dL_dtheta1, dL_dtheta2]
+        return [theta1_dot, theta2_dot, dL_dtheta1, dL_dtheta2, 0.0]
 
 
     # Solve equations of state numerically
@@ -142,6 +142,11 @@ class DoublePendulum:
     # return: [time [s], total energy [J], kinetic energy [J], potential energy [J],
     #          theta 1 [rad], theta 2 [rad], d(theta1)/dt [rad/s], d(theta2)/dt [rad/s]]
     def solve(self, y0, t):
+
+        E = self.get_total_energy(y0[0], y0[1], y0[2], y0[3])       # Calculate total energy at beginning
+
+        y0.append(E)                                                # Add energy to the list of initial conditions
+
         sol = ivp(self.deriv, [t[0], t[-1]], y0, t_eval=t)
 
         # Constrain angles to range [-pi,+pi]
